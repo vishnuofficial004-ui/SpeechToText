@@ -18,17 +18,18 @@ It is designed to run on **Windows (tested), macOS, and Linux** and can also be 
 ---
 
 ## Project Structure
-SpeechToText
-│
+
+''' SpeechToText
 ├── src/
-│ ├── speech_module.py # Core wake/sleep logic and transcription
-│ ├── api_server.py # Optional FastAPI server for API access
-│
-├── app.py # Demo runner script
-├── test_speech_module.py # Unit tests (optional)
-├── requirements.txt # Dependencies
-├── .env # Optional config file
-└── README.md
+│   ├── speech_module.py       # Core wake/sleep logic and transcription
+│   └── api_server.py          # Optional FastAPI server for API access
+├── app.py                     # Demo runner script
+├── test_speech_module.py      # Unit tests (optional)
+├── requirements.txt           # Python dependencies
+├── .env                       # Optional environment variables
+└── README.md                  # Project documentation  '''
+
+
 
 ## Requirements
 - Python 3.10 or higher
@@ -61,26 +62,20 @@ SpeechToText
 7. Run FastAPI server
    python src/api_server.py
 How It Works
-   The system listens continuously in idle mode.
-   When it hears the wake word, it activates transcription.
-   Audio is processed locally by Whisper.
-   Transcribed text is displayed in the terminal or returned as function output.
-   When it hears the sleep word, it goes back to idle mode.
+   1. The system listens continuously in idle mode.
+   2. When it hears the wake word, it activates transcription.
+   3. Audio is processed locally by Whisper.
+   4. Transcribed text is displayed in the terminal or returned as function output.
+   5. When it hears the sleep word, it goes back to idle mode.
 
 Example Console Output
-Microphone ready. Say your wake word to start.
-You said: hi hi
-Listening...
-Transcription: Hello, how are you?
-You said: bye bye
-Sleeping mode activated.
-Key File: speech_module.py
-Function	Description
-listen_for_wake_word()	Listens for wake word activation
-start_transcription()	Begins real-time transcription
-stop_transcription()	Stops transcription on sleep word
-load_model()	Loads Whisper locally
-handle_errors()	Handles audio and mic errors
+- Microphone ready. Say your wake word to start.
+- You said: hi hi
+- Listening...
+- Transcription: Hello, how are you?
+- You said: bye bye
+- Sleeping mode activated.
+
 
 Technical Workflow
 

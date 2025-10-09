@@ -1,119 +1,131 @@
-****Real-Time Speech-to-Text with Wake & Sleep Words (Offline Whisper)****
-** Project Overview
-      
-     This project implements a real-time speech-to-text (STT) system that listens for a wake word to start transcription and a sleep word to stop it — just like a mini voice assistant.
-     It uses OpenAI’s Whisper model locally (offline) to perform speech recognition and transcription, making it suitable for both desktop and mobile app integration (e.g., React Native).
+# Real-Time Speech-to-Text with Wake and Sleep Words (Offline Whisper)
 
-**Features
+## Project Overview
+This project implements a real-time Speech-to-Text (STT) system that continuously listens through a microphone and activates transcription only when a **wake word** is spoken. It stops listening when a **sleep word** is detected. The system works like a mini voice assistant and runs fully **offline** using **OpenAI Whisper local model**.
 
-  Wake/Sleep Word Control — activates/deactivates the transcription mode automatically
-  Real-Time Speech Recognition using speech_recognition and pyaudio
-  Offline Whisper Transcription (no API key required)
-  App-Friendly Module Design — can be reused in a mobile or web app backend
-  Lightweight & Secure — runs locally, no data sent to cloud
-  Cross-Platform Support — works on Windows, macOS, and Linux
+It is designed to run on **Windows (tested), macOS, and Linux** and can also be integrated into **mobile or web backends** such as React Native, FastAPI, or Flask.
 
-** Project Structure
+---
+
+## Features
+- Automatic **Wake and Sleep word control**
+- **Real-time speech recognition**
+- **Offline Whisper transcription** (no OpenAI API key required)
+- **Modular Python design** for application integration
+- **Privacy-friendly** (runs entirely on local machine)
+- **Cross-platform support**
+
+---
+
+## Project Structure
 SpeechToText
 │
-├── speech_module.py       
-├── app.py                 
-├── requirements.txt       
-├── .env                   
-└── README.md             
+├── src/
+│ ├── speech_module.py # Core wake/sleep logic and transcription
+│ ├── api_server.py # Optional FastAPI server for API access
+│
+├── app.py # Demo runner script
+├── test_speech_module.py # Unit tests (optional)
+├── requirements.txt # Dependencies
+├── .env # Optional config file
+└── README.md
 
-**Requirements
-   Python 3.10+
-   FFmpeg (for audio processing)
-   Microphone input available
+## Requirements
+- Python 3.10 or higher
+- FFmpeg installed
+- Working microphone
+  
+## Python Libraries Used
+| Library | Purpose |
+|---------|---------|
+| openai-whisper | Local speech-to-text transcription |
+| torch, torchaudio, torchvision | Backend for Whisper |
+| speechrecognition | Microphone input handling |
+| pyaudio | Audio streaming |
+| python-dotenv | Environment variable support |
 
-** Python Libraries
-openai-whisper	                Local speech-to-text transcription
-torch, torchaudio, torchvision	Machine learning backend
-speechrecognition, pyaudio	Microphone input & speech capture
-python-dotenv	                Environment variable management
+## How to Clone and Run
 
-## How to Clone & Run
+1. Clone repository
+2. git clone https://github.com/vishnuofficial004-ui/SpeechToText.git
+   cd SpeechToText
+3. Create and activate virtual environment
+   python -m venv venv
+   venv\Scripts\activate        # Windows
+4. Install dependencies
+   pip install -r requirements.txt
+5. Install and verify FFmpeg
+   ffmpeg -version
+6. Run the demo
+   python src/speech_module.py
+7. Run FastAPI server
+   python src/api_server.py
+How It Works
+   The system listens continuously in idle mode.
+   When it hears the wake word, it activates transcription.
+   Audio is processed locally by Whisper.
+   Transcribed text is displayed in the terminal or returned as function output.
+   When it hears the sleep word, it goes back to idle mode.
 
-Clone the repository:
-    git clone https://github.com/vishnuofficial004-ui/SpeechToText.git
-    cd SpeechToText
-Install dependencies:
-    pip install -r requirements.txt
-Make virtual Environment
-    python -m venv venv
-    venv\Scripts\activate
-Install and Verify ffmpeg
-    ffmpeg -version
-Run the project:
-    python src\speech_module.py
-Run the apiServer(optional)
-    python src/api_server.py
-
-**How It Works
-   The system continuously listens through your microphone but stays inactive until it detects the wake word.
-    On hearing the wake word, it switches into transcription mode and starts capturing speech.
-    The captured audio is processed locally using Whisper, and the recognized text is displayed in the terminal or returned by the module.
-    If the system detects the sleep word (e.g., “bye bye”), it pauses transcription and returns to idle listening.
-    Run the demo: python app.py
-    Microphone ready. Say your wake word to start.
-    You said: hi hi
-    Listening... (speech-to-text active)
-    Transcription: Hello, how are you?
-    You said: bye bye
-    Sleeping mode activated.
-
- Key File — speech_module.py
-**Responsibilities:
+Example Console Output
+Microphone ready. Say your wake word to start.
+You said: hi hi
+Listening...
+Transcription: Hello, how are you?
+You said: bye bye
+Sleeping mode activated.
+Key File: speech_module.py
 Function	Description
-listen_for_wake_word()	Waits for user’s wake word
-start_transcription()	Records and transcribes audio
-stop_transcription()	Pauses listening when sleep word is said
-load_model()	Loads Whisper model for offline inference
-handle_errors()	Handles microphone/FFmpeg-related issues
+listen_for_wake_word()	Listens for wake word activation
+start_transcription()	Begins real-time transcription
+stop_transcription()	Stops transcription on sleep word
+load_model()	Loads Whisper locally
+handle_errors()	Handles audio and mic errors
 
-This file can be imported as a Python module or used standalone for demonstration.
+Technical Workflow
 
-**Technical Workflow
-    A[Microphone Input] --> B[SpeechRecognition Stream]
-    B --> C{Wake Word?}
-    C -- No --> B
-    C -- Yes --> D[Activate STT Mode]
-    D --> E[Record Audio]
-    E --> F[Whisper Transcription (Offline)]
-    F --> G[Display / Return Text Output]
-    G --> H{Sleep Word?}
-    H -- No --> D
-    H -- Yes --> I[Stop & Go Idle]
+Microphone Input
+        ↓
+SpeechRecognition Audio Stream
+        ↓
+Wake Word Detected?
+    No → Keep Listening
+    Yes → Start STT Mode
+                ↓
+       Whisper Transcription
+                ↓
+      Display or Return Text
+                ↓
+Sleep Word Detected?
+    Yes → Go Idle
+    No  → Continue STT
 
-**App-Friendliness
+Example Use Cases
+  Voice note-taking
+  AI voice assistant
+  Hands-free voice command system
+  Meeting transcription
+  Accessible voice input tools
 
-  The module is app-friendly because:
-  The transcription logic is isolated in a single Python module.
-  Can be wrapped in a Flask or FastAPI endpoint for mobile integration.
-  Works offline (no dependency on OpenAI API).
-  Easily portable to React Native or Electron-based frontends.
+Video Demonstration
+You can view multiple demonstration videos here:
 
-**Example Use Cases
+ Primary Demo
+ Implementation Details Video 1
+ Implementation Details Video 2
 
-   Voice note-taking or dictation tools
-   AI voice assistants (custom wake/sleep trigger)
-   Mobile apps requiring voice input (offline)
-   Accessibility tools for hearing-impaired users
-   Real-time meeting or lecture transcription
+Author
+Name: Vishnu M
+GitHub: vishnuofficial004-ui
+Platform Used: Windows 10
 
-**Implementation Summary
+License
+This project is released under the MIT License. See LICENSE file for details.
 
-1️  Set up Python environment and install libraries
-2️  Configured microphone input using speech_recognition
-3️  Added wake word detection logic
-4️  Integrated Whisper model for local transcription
-5️  Enabled sleep word to deactivate listening
-6️  Verified real-time transcription in terminal
-7  Removed dependency on .env once local mode worked
+Future Enhancements
 
-
-**Author
-  Vishnu M
-  GitHub: vishnuofficial004-ui
+ Support multiple wake words
+ Add text-to-speech feedback
+ Integration with mobile apps for offline voice commands
+ GPU acceleration for faster transcription
 

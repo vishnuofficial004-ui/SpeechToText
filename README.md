@@ -107,12 +107,13 @@ Example Use Cases
   Meeting transcription
   Accessible voice input tools
 
-Video Demonstration
-You can view multiple demonstration videos here:
+## Video Demonstration
 
- Primary Demo
- Implementation Details Video 1
- Implementation Details Video 2
+Watch the demo videos showing wake/sleep word functionality and real-time STT:
+
+1. [Implementation Details Video 1(Implementation+Transcription)](https://drive.google.com/file/d/1st3vWXRlYpcyxWSfNMR4V3tLFKHddEXa/view?usp=sharing)
+2. [Implementation Details Video 2(Fastapi Integration)](https://drive.google.com/file/d/16HAs6ef6cfeSVjNlFzdSKa7LQr1pSmkO/view?usp=sharing)
+
 
 Author
 Name: Vishnu M
